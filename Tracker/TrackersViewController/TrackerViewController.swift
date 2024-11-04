@@ -15,6 +15,9 @@ final class TrackersListViewController: UIViewController {
         font: UIFont.systemFont(ofSize: 12, weight: .light),
         color: .black
     )
+    var categories: [TrackerCategory] = []
+    var completedTrackers: [TrackerRecord] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
