@@ -7,7 +7,6 @@
 import UIKit
 
 final class TrackersListViewController: UIViewController {
-    
     let addTrackerButton: UIButton = .init()
     let datePicker: UIDatePicker = .init()
     let emptyListView = UIImageView()
@@ -25,6 +24,8 @@ final class TrackersListViewController: UIViewController {
         let imageButton = UIImage(named: "+")
         addTrackerButton.setImage(imageButton, for: .normal)
         addTrackerButton.translatesAutoresizingMaskIntoConstraints = false
+        addTrackerButton.addTarget(self, action: #selector(tappedAddTrackerButton), for: .touchUpInside)
+        
         
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
@@ -66,5 +67,17 @@ final class TrackersListViewController: UIViewController {
         label.textColor = color
         return label
     }
+    
+    //    MARK: - Objc Methods
+    
+    @objc private func tappedAddTrackerButton() {
+        let createTracker = CreateTrackerViewController()
+           if let navigationController = self.navigationController {
+               navigationController.pushViewController(createTracker, animated: true)
+           } else {
+               createTracker.modalPresentationStyle = .pageSheet
+               present(createTracker, animated: true, completion: nil)
+           }
+       }
     
 }

@@ -33,29 +33,17 @@
 		EA1368D72CCC359E00DF4598 /* Exceptions for "Tracker" folder in "Tracker" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				.swift,
 				Info.plist,
 			);
 			target = EA1368AE2CCC359D00DF4598 /* Tracker */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		EAFAB9752CD9626F00D22988 /* Exceptions for "Tracker" folder in "Compile Sources" phase from "Tracker" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = EA1368AB2CCC359D00DF4598 /* Sources */;
-			membershipExceptions = (
-				.swift,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EA1368B12CCC359D00DF4598 /* Tracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				EA1368D72CCC359E00DF4598 /* Exceptions for "Tracker" folder in "Tracker" target */,
-				EAFAB9752CD9626F00D22988 /* Exceptions for "Tracker" folder in "Compile Sources" phase from "Tracker" target */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
