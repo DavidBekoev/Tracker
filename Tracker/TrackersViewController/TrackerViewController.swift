@@ -71,7 +71,7 @@ final class TrackersListViewController: UIViewController {
     //    MARK: - Objc Methods
     
     @objc private func tappedAddTrackerButton() {
-        let createTracker = CreateTrackerViewController()
+        let createTracker = TrackerCreateViewController()
            if let navigationController = self.navigationController {
                navigationController.pushViewController(createTracker, animated: true)
            } else {

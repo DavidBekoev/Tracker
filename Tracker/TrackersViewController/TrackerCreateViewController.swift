@@ -1,5 +1,5 @@
 //
-//  CreatedTracker.swift
+//  TrackerCreateViewController.swift
 //  Tracker
 //
 //  Created by Давид Бекоев on 07.11.2024.
@@ -8,7 +8,7 @@
 import UIKit
 
 
-final class CreateTrackerViewController: UIViewController {
+final class TrackerCreateViewController: UIViewController {
 
     private let buttonHabit: UIButton = {
         let button = UIButton()
@@ -51,6 +51,9 @@ final class CreateTrackerViewController: UIViewController {
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),
         ]
         
+        buttonEvent.addTarget(self, action: #selector(newEventCreate), for: .touchUpInside)
+        buttonHabit.addTarget(self, action: #selector(newEventCreate), for: .touchUpInside)
+        
     }
     
     private func setupView() {
@@ -73,4 +76,14 @@ final class CreateTrackerViewController: UIViewController {
     }
     
  
+    @objc func newHabitCreate() {
+        let newHabitCreateViewController = NewHabitCreateViewController()
+        navigationController?.pushViewController(newHabitCreateViewController, animated: true)
+        
+    }
+    
+    @objc func newEventCreate() {
+        let newEventCreateViewController = NewEventCreateViewController()
+        navigationController?.pushViewController(newEventCreateViewController, animated: true)
+    }
 }
