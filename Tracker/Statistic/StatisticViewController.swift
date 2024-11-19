@@ -8,7 +8,6 @@
 import UIKit
 
 final class StatisticsController: UIViewController {
-
     let emptyListView = UIImageView()
     let emptyListLabel = configLabel(
         font: UIFont.systemFont(ofSize: 12, weight: .light),
@@ -49,5 +48,5 @@ final class StatisticsController: UIViewController {
         return label
     }
     
-
 }
+

@@ -6,24 +6,45 @@
 //
 
 import UIKit
-class TabBarViewController: UITabBarController {
+
+final class TabBarController: UITabBarController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let trackerNavigationController = TrackersNavigationController()
-        let statisticsNavigationController = StatisticsNavigationsController()
-        
-        trackerNavigationController.tabBarItem = UITabBarItem(
+        setupViewControllers()
+        setupTopBar()
+    }
+    
+    private func setupViewControllers() {
+        let trackersViewController = UINavigationController(rootViewController: TrackerViewController())
+        trackersViewController.tabBarItem = UITabBarItem(
             title: "Трекеры",
             image: UIImage(named: "Tab Logo"),
             selectedImage: nil
         )
-        statisticsNavigationController.tabBarItem = UITabBarItem(
+        
+        let statisticsViewController = StatisticsController()
+        statisticsViewController.tabBarItem = UITabBarItem(
             title: "Статистика",
             image: UIImage(named: "Заяц"),
             selectedImage: nil
         )
         
-        self.viewControllers = [trackerNavigationController, statisticsNavigationController]
+        self.viewControllers = [trackersViewController, statisticsViewController]
+    }
+    
+    private func setupTopBar() {
+        tabBar.backgroundColor = .white
+        let topBorder = UIView()
+        topBorder.backgroundColor = .gray
+        topBorder.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(topBorder)
+        
+        NSLayoutConstraint.activate([
+            topBorder.heightAnchor.constraint(equalToConstant: 1),
+            topBorder.leadingAnchor.constraint(equalTo: tabBar.leadingAnchor),
+            topBorder.trailingAnchor.constraint(equalTo: tabBar.trailingAnchor),
+            topBorder.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
+        ])
     }
 }

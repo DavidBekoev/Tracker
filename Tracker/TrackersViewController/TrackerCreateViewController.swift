@@ -7,38 +7,42 @@
 
 import UIKit
 
-
-final class TrackerCreateViewController: UIViewController {
-
-    private let buttonHabit: UIButton = {
+final class TrackerCreateViewController: UIViewController, ConfigurableView {
+    
+    weak var delegate: NewHabitCreateViewControllerDelegate?
+    
+    
+    private var buttonHabit: UIButton = {
         let button = UIButton()
         button.setTitle("Привычка", for: .normal)
         button.backgroundColor = .black
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
-        button.titleLabel?.font = .systemFont(ofSize: 16)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         return button
     }()
     
-    private let buttonEvent: UIButton = {
+    private var buttonEvent: UIButton = {
         let button = UIButton()
         button.setTitle("Нерегулярное событие", for: .normal)
         button.backgroundColor = .black
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
-        button.titleLabel?.font = .systemFont(ofSize: 16)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         return button
     }()
     
-    private let buttonStackView: UIStackView = {
+    
+    private var buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 16
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,22 +52,22 @@ final class TrackerCreateViewController: UIViewController {
         
         title = "Создание трекера"
         navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
         ]
         
-        buttonEvent.addTarget(self, action: #selector(newEventCreate), for: .touchUpInside)
-        buttonHabit.addTarget(self, action: #selector(newEventCreate), for: .touchUpInside)
-        
+        buttonEvent.addTarget(self, action: #selector(createNewEvent), for: .touchUpInside)
+        buttonHabit.addTarget(self, action: #selector(createNewHabit), for: .touchUpInside)
     }
     
-    private func setupView() {
+    
+    func setupView() {
         [buttonHabit, buttonEvent].forEach{
             buttonStackView.addArrangedSubview($0)
         }
         view.addSubview(buttonStackView)
     }
     
-    private func setupConstraints() {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             
             buttonHabit.heightAnchor.constraint(equalToConstant: 60),
@@ -75,14 +79,14 @@ final class TrackerCreateViewController: UIViewController {
         ])
     }
     
- 
-    @objc func newHabitCreate() {
+    
+    @objc private func createNewHabit() {
         let newHabitCreateViewController = NewHabitCreateViewController()
+        newHabitCreateViewController.delegate = delegate
         navigationController?.pushViewController(newHabitCreateViewController, animated: true)
-        
     }
     
-    @objc func newEventCreate() {
+    @objc private func createNewEvent() {
         let newEventCreateViewController = NewEventCreateViewController()
         navigationController?.pushViewController(newEventCreateViewController, animated: true)
     }

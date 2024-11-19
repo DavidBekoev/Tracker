@@ -12,3 +12,10 @@ extension UIView {
         subviews.forEach { addSubview($0) }
     }
 }
+
+
+protocol ConfigurableView {
+    func setupView()
+    func setupConstraints()
+}
+
