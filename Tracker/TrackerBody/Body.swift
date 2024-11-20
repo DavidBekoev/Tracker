@@ -24,14 +24,12 @@ struct TrackerCategory {
     let trackers: [Tracker]
 }
 
-enum WeekDay: Int, CaseIterable {
-    
+enum WeekDay:Int, CaseIterable {
     case sunday = 1, monday, tuesday, wednesday, thursday, friday, saturday
     
     var displayName: String {
         switch self {
-        case .sunday:
-            return "Воскресенье"
+        
         case .monday:
             return "Понедельник"
         case .tuesday:
@@ -44,13 +42,14 @@ enum WeekDay: Int, CaseIterable {
             return "Пятница"
         case .saturday:
             return "Суббота"
+        case .sunday:
+            return "Воскресенье"
         }
     }
     
     var shortDisplayName: String {
         switch self {
-        case .sunday:
-            return "Вс"
+       
         case .monday:
             return "Пн"
         case .tuesday:
@@ -63,6 +62,8 @@ enum WeekDay: Int, CaseIterable {
             return "Пт"
         case .saturday:
             return "Сб"
+        case .sunday:
+            return "Вс"
         }
     }
 }

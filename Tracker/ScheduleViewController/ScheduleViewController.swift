@@ -13,7 +13,13 @@ protocol ScheduleViewControllerDelegate: AnyObject {
 final class ScheduleViewController: UIViewController, ConfigurableView {
     
     weak var delegate: ScheduleViewControllerDelegate?
-    private let weekDays: [WeekDay] = WeekDay.allCases
+    //переделка расписания 
+    private let weekDays: [WeekDay] = {
+           let allDays = WeekDay.allCases
+           let startIndex = allDays.firstIndex(of: .monday) ?? 0
+           let reorderedDays = allDays[startIndex...] + allDays[..<startIndex]
+           return Array(reorderedDays)
+       }()
     var selectedDays: Set<WeekDay> = []
     
     private var doneButton: UIButton = {

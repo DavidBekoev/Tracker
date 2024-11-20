@@ -143,6 +143,7 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         emojiLabel.text = tracker.emoji
         trackerTitleLabel.text = tracker.title
         titleStackView.backgroundColor = tracker.color
+        daysCountLabel.text = daysCountString(count: completedDays)
         
         let configuration = UIImage.SymbolConfiguration(pointSize: 11, weight: .bold)
         let imageName = isCompleted ? "checkmark" : "plus"
@@ -157,6 +158,12 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
     
     @objc private func markButtonTappedAction() {
         markButtonAction?()
+        
     }
     
+    private func daysCountString(count: Int) -> String {
+        let formatString: String = NSLocalizedString("days_count", comment: "")
+        let resultString: String = String.localizedStringWithFormat(formatString,count)
+        return resultString
+    }
 }
