@@ -13,7 +13,7 @@ protocol ScheduleViewControllerDelegate: AnyObject {
 final class ScheduleViewController: UIViewController, ConfigurableView {
     
     weak var delegate: ScheduleViewControllerDelegate?
-    //переделка расписания 
+    
     private let weekDays: [WeekDay] = {
            let allDays = WeekDay.allCases
            let startIndex = allDays.firstIndex(of: .monday) ?? 0
@@ -33,7 +33,6 @@ final class ScheduleViewController: UIViewController, ConfigurableView {
         return button
     }()
     
-    
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +42,6 @@ final class ScheduleViewController: UIViewController, ConfigurableView {
         tableView.isScrollEnabled = false
         return tableView
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +64,6 @@ final class ScheduleViewController: UIViewController, ConfigurableView {
         super.viewDidLayoutSubviews()
         tableView.heightAnchor.constraint(equalToConstant: tableView.contentSize.height).isActive = true
     }
-    
     
     func setupView() {
         [tableView, doneButton].forEach{
@@ -95,7 +92,6 @@ final class ScheduleViewController: UIViewController, ConfigurableView {
         ])
     }
     
-    
     @objc private func switchChanged(_ sender: UISwitch) {
         let day = weekDays[sender.tag]
         
@@ -119,7 +115,6 @@ final class ScheduleViewController: UIViewController, ConfigurableView {
     }
 }
 
-
 extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return WeekDay.allCases.count
@@ -141,7 +136,7 @@ extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
             action: #selector(switchChanged(_:)),
             for: .valueChanged
         )
-        switchView.onTintColor = .blue
+        switchView.onTintColor = .ypBlue
         
         if indexPath.row == weekDays.count - 1 {
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)

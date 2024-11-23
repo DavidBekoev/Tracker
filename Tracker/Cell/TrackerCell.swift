@@ -8,11 +8,7 @@
 import UIKit
 
 final class TrackerCell: UICollectionViewCell, ConfigurableView {
-    
     var markButtonAction: (() -> Void)?
-    
-    
-  
     
     private var trackerTitleLabel: UILabel = {
         let label = UILabel()
@@ -47,7 +43,6 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         return button
     }()
     
-    
     private var titleStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -57,7 +52,6 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         stackView.alignment = .leading
         return stackView
     }()
-    
     
     private var emojiContainerView: UIView = {
         let view = UIView()
@@ -76,7 +70,6 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -143,7 +136,9 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         emojiLabel.text = tracker.emoji
         trackerTitleLabel.text = tracker.title
         titleStackView.backgroundColor = tracker.color
-        daysCountLabel.text = daysCountString(count: completedDays)
+    
+        let day = daysCountString(count: completedDays)
+        daysCountLabel.text = "\(day)"
         
         let configuration = UIImage.SymbolConfiguration(pointSize: 11, weight: .bold)
         let imageName = isCompleted ? "checkmark" : "plus"
@@ -155,15 +150,20 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         markButton.alpha = isFutureDate ? 0.5 : 1.0
     }
     
-    
     @objc private func markButtonTappedAction() {
         markButtonAction?()
         
     }
     
     private func daysCountString(count: Int) -> String {
-        let formatString: String = NSLocalizedString("days_count", comment: "")
-        let resultString: String = String.localizedStringWithFormat(formatString,count)
-        return resultString
+        let remainingPart10 = count % 10
+        let remainingPart100 = count % 100
+        if remainingPart10 == 1 && remainingPart100 != 11 {
+            return "\(count) день"
+        } else if remainingPart10 >= 2 && remainingPart10 <= 4 && (remainingPart100 < 10) || remainingPart100 >= 20 {
+            return "\(count) дня"
+        } else {
+            return "\(count) дней"
+        }
     }
 }

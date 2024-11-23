@@ -16,7 +16,6 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     private let dataTableView: [TrackerDataType] = TrackerDataType.allCases
     private var selectDays: [WeekDay] = []
     
-    
     private var trackerNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Введите название трекера"
@@ -32,7 +31,6 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
     
     private var cancelButton: UIButton = {
         let cancelButton = UIButton(type: .system)
@@ -76,7 +74,6 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         return stackView
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -96,12 +93,10 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         trackerNameTextField.delegate = self
     }
     
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.heightAnchor.constraint(equalToConstant: tableView.contentSize.height).isActive = true
     }
-    
     
     func setupView() {
         [trackerNameTextField, tableView].forEach{
@@ -169,7 +164,6 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         tableView.reloadData()
     }
 }
-
 
 extension NewHabitCreateViewController: UITableViewDelegate, UITableViewDataSource {
     

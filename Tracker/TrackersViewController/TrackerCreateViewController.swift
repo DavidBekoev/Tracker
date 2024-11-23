@@ -10,8 +10,7 @@ import UIKit
 final class TrackerCreateViewController: UIViewController, ConfigurableView {
     
     weak var delegate: NewHabitCreateViewControllerDelegate?
-    
-    
+
     private var buttonHabit: UIButton = {
         let button = UIButton()
         button.setTitle("Привычка", for: .normal)
@@ -34,7 +33,6 @@ final class TrackerCreateViewController: UIViewController, ConfigurableView {
         return button
     }()
     
-    
     private var buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -42,7 +40,6 @@ final class TrackerCreateViewController: UIViewController, ConfigurableView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +55,6 @@ final class TrackerCreateViewController: UIViewController, ConfigurableView {
         buttonEvent.addTarget(self, action: #selector(createNewEvent), for: .touchUpInside)
         buttonHabit.addTarget(self, action: #selector(createNewHabit), for: .touchUpInside)
     }
-    
     
     func setupView() {
         [buttonHabit, buttonEvent].forEach{

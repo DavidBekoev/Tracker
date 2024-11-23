@@ -13,7 +13,6 @@ extension UIView {
     }
 }
 
-
 protocol ConfigurableView {
     func setupView()
     func setupConstraints()

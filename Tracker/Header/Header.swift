@@ -9,7 +9,6 @@ import UIKit
 
 final class SectionHeader: UICollectionReusableView, ConfigurableView {
     static let identifier = "section-header-identifier"
-    
     var nameLabel: UILabel = {
         let lable = UILabel()
         lable.translatesAutoresizingMaskIntoConstraints = false
@@ -18,7 +17,6 @@ final class SectionHeader: UICollectionReusableView, ConfigurableView {
         lable.textAlignment = .left
         return lable
     }()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)

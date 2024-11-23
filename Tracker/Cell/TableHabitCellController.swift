@@ -7,7 +7,6 @@
 //
 import UIKit
 final class TableHabitCellController: UITableViewCell, ConfigurableView {
-    
     private var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
@@ -15,7 +14,6 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     
     private var arrowImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "chevron.right"))
@@ -25,7 +23,6 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
         return imageView
     }()
     
-    
     private var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -34,7 +31,6 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
         return stackView
     }()
     
-    
     private var detailLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
@@ -42,7 +38,6 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -54,7 +49,6 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func setupView() {
         [nameLabel, detailLabel].forEach{
             stackView.addArrangedSubview($0)
@@ -63,6 +57,7 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
             addSubview($0)
         }
     }
+    
     func setupConstraints() {
         NSLayoutConstraint.activate([
             
@@ -87,7 +82,7 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
                 detailLabel.text = "Каждый день"
             } else {
                 detailLabel.text = selectedDays
-                    .sorted(by: { $0.rawValue < $1.rawValue })
+                    .sorted { $0.rawValue < $1.rawValue }
                     .map { $0.shortDisplayName }
                     .joined(separator: ", ")
             }

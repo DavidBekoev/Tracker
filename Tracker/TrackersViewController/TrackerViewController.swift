@@ -13,7 +13,6 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     private var visibleCategories: [TrackerCategory] = []
     private var currentDate: Date = Date()
     
-    
     private lazy var addTrackerButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
             image: UIImage(named: "Pluus"),
@@ -88,7 +87,6 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         return collectionView
     }()
     
-    
     private var infoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -104,7 +102,6 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,7 +119,6 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         
         updateViewVisibility()
     }
-    
     
     private func setupNavBar() {
         navigationItem.leftBarButtonItem = addTrackerButton
@@ -172,7 +168,6 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
             collectionView.reloadData()
         }
     }
-    
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
         currentDate = sender.date
