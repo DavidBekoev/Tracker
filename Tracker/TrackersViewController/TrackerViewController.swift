@@ -13,6 +13,10 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     private var visibleCategories: [TrackerCategory] = []
     private var currentDate: Date = Date()
     
+    private let trackerStore = TrackerStore.shared
+      private let categoryStore = TrackerCategoryStore.shared
+      private let recordStore = TrackerRecordStore.shared
+    
     private lazy var addTrackerButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
             image: UIImage(named: "Pluus"),
@@ -117,6 +121,11 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         
         datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         
+        // Получаем данные из Core Data
+               fetchCategories()
+               fetchCompletedTrackers()
+               filterTrackersForSelectedDate()
+        
         updateViewVisibility()
     }
     
@@ -124,6 +133,28 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         navigationItem.leftBarButtonItem = addTrackerButton
         navigationItem.rightBarButtonItem = choiceDate
     }
+    
+    // MARK: - Get Core Data
+
+       private func fetchCategories() {
+           categoryStore.fetchCategories { [weak self] categories in
+               DispatchQueue.main.async {
+                   self?.categories = categories
+                   self?.filterTrackersForSelectedDate()
+                   self?.updateViewVisibility()
+               }
+           }
+       }
+
+       private func fetchCompletedTrackers() {
+           recordStore.fetchRecords { [weak self] records in
+               DispatchQueue.main.async {
+                   self?.completedTrackers = Set(records)
+                   self?.collectionView.reloadData()
+               }
+           }
+       }
+
     
     func setupView() {
         [titleLabel, searchBar.searchBar].forEach{
@@ -182,22 +213,7 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     }
     
     func didCreateNewTracker(_ tracker: Tracker, categoryName: String) {
-        var newCategories = categories
-        
-        if let index = newCategories.firstIndex(where: { $0.title == categoryName }) {
-            let existingCategory = newCategories[index]
-            var updatedTrackers = existingCategory.trackers
-            updatedTrackers.append(tracker)
-            let updatedCategory = TrackerCategory(title: existingCategory.title, trackers: updatedTrackers)
-            newCategories[index] = updatedCategory
-        } else {
-            let newCategory = TrackerCategory(title: categoryName, trackers: [tracker])
-            newCategories.append(newCategory)
-        }
-        
-        categories = newCategories
-        filterTrackersForSelectedDate()
-        updateViewVisibility()
+        fetchCategories()
     }
     
     private func markButtonTapped(at indexPath: IndexPath) {
@@ -211,12 +227,27 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         let record = TrackerRecord(date: selectedDate, trackerID: tracker.id)
         
         if completedTrackers.contains(record) {
-            completedTrackers.remove(record)
+         //   completedTrackers.remove(record)
+            recordStore.deleteRecord(trackerId: tracker.id, date: selectedDate) { [weak self] success in
+                           if success {
+                               self?.completedTrackers.remove(record)
+                               DispatchQueue.main.async {
+                                   self?.collectionView.reloadItems(at: [indexPath])
+                               }
+                           }
+                       }
         } else {
-            completedTrackers.insert(record)
+            recordStore.addRecord(trackerID: tracker.id, date: selectedDate) { [weak self] success in
+                           if success {
+                               self?.completedTrackers.insert(record)
+                               DispatchQueue.main.async {
+                                   self?.collectionView.reloadItems(at: [indexPath])
+                               }
+                           }
+                       }
         }
         
-        collectionView.reloadItems(at: [indexPath])
+       // collectionView.reloadItems(at: [indexPath])
     }
     
     private func filterTrackersForSelectedDate() {
