@@ -8,7 +8,6 @@
 import UIKit
 
 final class HeaderEmoji: UICollectionReusableView {
-
     static let reuseIdentifier = "HeaderEmoji"
     private lazy var titleLabel: UILabel = {
         let label = UILabel()

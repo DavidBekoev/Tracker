@@ -8,9 +8,7 @@
 import UIKit
 
 final class CellEmojiCollection: UICollectionViewCell, ConfigurableView {
-
     static let identifier = "CellEmoji"
-
     private lazy var emojiLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +26,6 @@ final class CellEmojiCollection: UICollectionViewCell, ConfigurableView {
         return view
     }()
 
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -38,7 +35,6 @@ final class CellEmojiCollection: UICollectionViewCell, ConfigurableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 
     func setupView() {
         contentView.addSubview(viewBackground)
@@ -57,7 +53,6 @@ final class CellEmojiCollection: UICollectionViewCell, ConfigurableView {
             emojiLabel.centerYAnchor.constraint(equalTo: viewBackground.centerYAnchor)
         ])
     }
-
 
     func configure(with emoji: String, isSelected: Bool) {
         emojiLabel.text = emoji

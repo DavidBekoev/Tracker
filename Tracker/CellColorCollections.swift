@@ -8,9 +8,7 @@
 import UIKit
 
 final class CellColorCollection: UICollectionViewCell, ConfigurableView {
-    
     static let identifier = "CellColor"
-    
     private lazy var borderView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
@@ -59,7 +57,6 @@ final class CellColorCollection: UICollectionViewCell, ConfigurableView {
             
         ])
     }
-    
     
     func configure(with color: UIColor, isSelected: Bool) {
         colorView.backgroundColor = color

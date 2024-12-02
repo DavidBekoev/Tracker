@@ -8,9 +8,7 @@
 import UIKit
 
 final class HeaderColor: UICollectionReusableView {
-
     static let reuseIdentifier = "HeaderColor"
-
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 19)
@@ -18,8 +16,7 @@ final class HeaderColor: UICollectionReusableView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -29,7 +26,6 @@ final class HeaderColor: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 
     private func setupView() {
         addSubview(titleLabel)
@@ -42,7 +38,6 @@ final class HeaderColor: UICollectionReusableView {
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
-
 
     func configure(with title: String) {
         titleLabel.text = title
