@@ -7,7 +7,7 @@
 
 import CoreData
 
-class TrackerRecordStore {
+final class TrackerRecordStore {
     static let shared = TrackerRecordStore()
     private let context: NSManagedObjectContext
 

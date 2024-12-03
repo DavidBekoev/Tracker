@@ -8,7 +8,7 @@
 import CoreData
 import UIKit
 
-class TrackerCategoryStore {
+final class TrackerCategoryStore {
     static let shared = TrackerCategoryStore()
     private let context: NSManagedObjectContext
 
