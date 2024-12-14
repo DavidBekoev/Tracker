@@ -74,7 +74,7 @@ final class ScheduleViewController: UIViewController, ConfigurableView {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(ScheduleTableCell.self, forCellReuseIdentifier: "DaySwitchCell")
         tableView.rowHeight = 75
     }
     
@@ -82,10 +82,12 @@ final class ScheduleViewController: UIViewController, ConfigurableView {
         NSLayoutConstraint.activate([
             
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 28),
+            tableView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: 39),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
-            doneButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 39),
+            //doneButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 39),
+            doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             doneButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             doneButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             doneButton.heightAnchor.constraint(equalToConstant: 60)
@@ -121,29 +123,31 @@ extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DaySwitchCell", for: indexPath) as? ScheduleTableCell else {
+                   fatalError("Не удалось deque DaySwitchCell")
+               }
+
         
         let day = weekDays[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = day.displayName
-        cell.backgroundColor = .background
-        cell.textLabel?.font = .systemFont(ofSize: 17)
-        
-        let switchView = UISwitch(frame: .zero)
-        switchView.setOn(selectedDays.contains(day), animated: true)
-        switchView.tag = indexPath.row
-        switchView.addTarget(
-            self,
-            action: #selector(switchChanged(_:)),
-            for: .valueChanged
-        )
-        switchView.onTintColor = .ypBlue
+        let isOn = selectedDays.contains(day)
+
+               cell.configure(with: day.displayName, isOn: isOn) { [weak self] isOn in
+                   guard let self = self else { return }
+                   if isOn {
+                       self.selectedDays.insert(day)
+                   } else {
+                       self.selectedDays.remove(day)
+                   }
+               }
         
         if indexPath.row == weekDays.count - 1 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            cell.layer.cornerRadius = 16
+                       cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+                       cell.clipsToBounds = true
+                   } else {
+                       cell.layer.cornerRadius = 0
+                       cell.clipsToBounds = false
         }
-        
-        cell.accessoryView = switchView
-        cell.selectionStyle = .none
         
         return cell
     }

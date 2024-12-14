@@ -151,6 +151,7 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
                DispatchQueue.main.async {
                    self?.completedTrackers = Set(records)
                    self?.collectionView.reloadData()
+                   self?.filterTrackersForSelectedDate()
                }
            }
        }
@@ -217,17 +218,17 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     }
     
     private func markButtonTapped(at indexPath: IndexPath) {
-        let selectedDate = currentDate
+        let selectedDate = Calendar.current.startOfDay(for: currentDate)
+        let today = Calendar.current.startOfDay(for: Date())
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.item]
         
-        guard Calendar.current.compare(selectedDate, to: Date(), toGranularity: .day) != .orderedDescending else {
+        guard selectedDate <= today else {
             return
         }
         
         let record = TrackerRecord(date: selectedDate, trackerID: tracker.id)
         
         if completedTrackers.contains(record) {
-         //   completedTrackers.remove(record)
             recordStore.deleteRecord(trackerId: tracker.id, date: selectedDate) { [weak self] success in
                            if success {
                                self?.completedTrackers.remove(record)
@@ -246,8 +247,6 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
                            }
                        }
         }
-        
-       // collectionView.reloadItems(at: [indexPath])
     }
     
     private func filterTrackersForSelectedDate() {

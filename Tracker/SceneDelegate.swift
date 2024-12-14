@@ -15,28 +15,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
         if UserDefaultsSettings.shared.onboardingWasShown {
-                   switchToMainViewController()
-               } else {
-                   let onboardingVC = OnboardingViewController()
-                   onboardingVC.didFinishOnboarding = { [weak self] in
-                       self?.switchToMainViewController()
-                   }
-                   window?.rootViewController = onboardingVC
-               }
-           }
-
-           private func switchToMainViewController() {
-               let tabBarController = TabBarController()
-               tabBarController.modalTransitionStyle = .crossDissolve
-               tabBarController.modalPresentationStyle = .fullScreen
-             
-               guard let window = window else {
+            switchToMainViewController()
+        } else {
+            let onboardingVC = OnboardingViewController()
+            onboardingVC.didFinishOnboarding = { [weak self] in
+                self?.switchToMainViewController()
+            }
+            window?.rootViewController = onboardingVC
+        }
+    }
+    
+    private func switchToMainViewController() {
+        let tabBarController = TabBarController()
+        tabBarController.modalTransitionStyle = .crossDissolve
+        tabBarController.modalPresentationStyle = .fullScreen
+        
+        guard let window = window else {
             window?.rootViewController = tabBarController
-                   return
-                  }
-               UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                         window.rootViewController = tabBarController
-                     })
+            return
+        }
+        UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: {
+            window.rootViewController = tabBarController
+        })
     }
     
 }
