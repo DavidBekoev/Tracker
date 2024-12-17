@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CategoryViewModel: CategoryViewModelProtocol {
+final class CategoryViewModel: CategoryViewModelProtocol {
     private let store: TrackerCategoryStore
     var categories: [TrackerCategory] = [] {
         didSet {
@@ -28,9 +28,10 @@ class CategoryViewModel: CategoryViewModelProtocol {
     }
     
     func addCategory(name: String) {
-        store.createCategory(title: name) { [weak self] category in
-            guard let newCategory = category else { return }
-            self?.categories.append(newCategory)
+        store.createCategory(title: name) { [weak self] _ in
+                self?.fetchCategories()
+            }
         }
     }
-}
+
+
