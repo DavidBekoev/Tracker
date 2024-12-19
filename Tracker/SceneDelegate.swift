@@ -12,10 +12,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let tabBarController = TabBarController()
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
+        if UserDefaultsSettings.shared.onboardingWasShown {
+            switchToMainViewController()
+        } else {
+            let onboardingVC = OnboardingViewController()
+            onboardingVC.didFinishOnboarding = { [weak self] in
+                self?.switchToMainViewController()
+            }
+            window?.rootViewController = onboardingVC
+        }
+    }
+    
+    private func switchToMainViewController() {
+        let tabBarController = TabBarController()
+        tabBarController.modalTransitionStyle = .crossDissolve
+        tabBarController.modalPresentationStyle = .fullScreen
+        
+        guard let window = window else {
+            window?.rootViewController = tabBarController
+            return
+        }
+        UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: {
+            window.rootViewController = tabBarController
+        })
     }
     
 }

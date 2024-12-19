@@ -17,6 +17,19 @@ final class TrackerCategoryStore {
     }
 
     func createCategory(title: String, completion: @escaping (TrackerCategory?) -> Void) {
+        let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "title == %@", title)
+
+                do {
+                    let existingCategories = try context.fetch(request)
+                    if !existingCategories.isEmpty {
+                        completion(nil)
+                        return
+                    }
+                } catch {
+                    completion(nil)
+                    return
+                }
         let categoryCoreData = TrackerCategoryCoreData(context: context)
         categoryCoreData.title = title
 
@@ -31,10 +44,10 @@ final class TrackerCategoryStore {
         do {
             let categoryEntities = try context.fetch(request)
             let categories = categoryEntities.compactMap { entity -> TrackerCategory? in
-                guard let title = entity.title,
-                      let trackersSet = entity.trackers as? Set<TrackerCoreData> else {
+                guard let title = entity.title else {
                     return nil
                 }
+                let trackersSet = entity.trackers as? Set<TrackerCoreData> ?? []
                 let trackerModels = trackersSet.compactMap { trackerEntity in
                     Tracker(id: trackerEntity.id ?? UUID(),
                             title: trackerEntity.title ?? "",
@@ -46,7 +59,6 @@ final class TrackerCategoryStore {
                       }
                       completion(categories)
                   } catch {
-                      print("Не удалось получить категории: \(error)")
                       completion([])
                   }
               }

@@ -14,8 +14,8 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     private var currentDate: Date = Date()
     
     private let trackerStore = TrackerStore.shared
-      private let categoryStore = TrackerCategoryStore.shared
-      private let recordStore = TrackerRecordStore.shared
+    private let categoryStore = TrackerCategoryStore.shared
+    private let recordStore = TrackerRecordStore.shared
     
     private lazy var addTrackerButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -122,9 +122,9 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         
         // Получаем данные из Core Data
-               fetchCategories()
-               fetchCompletedTrackers()
-               filterTrackersForSelectedDate()
+        fetchCategories()
+        fetchCompletedTrackers()
+        filterTrackersForSelectedDate()
         
         updateViewVisibility()
     }
@@ -132,29 +132,32 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     private func setupNavBar() {
         navigationItem.leftBarButtonItem = addTrackerButton
         navigationItem.rightBarButtonItem = choiceDate
+        navigationItem.searchController = searchBar
     }
     
     // MARK: - Get Core Data
-
-       private func fetchCategories() {
-           categoryStore.fetchCategories { [weak self] categories in
-               DispatchQueue.main.async {
-                   self?.categories = categories
-                   self?.filterTrackersForSelectedDate()
-                   self?.updateViewVisibility()
-               }
-           }
-       }
-
-       private func fetchCompletedTrackers() {
-           recordStore.fetchRecords { [weak self] records in
-               DispatchQueue.main.async {
-                   self?.completedTrackers = Set(records)
-                   self?.collectionView.reloadData()
-               }
-           }
-       }
-
+    
+    private func fetchCategories() {
+        categoryStore.fetchCategories { [weak self] categories in
+            DispatchQueue.main.async {
+                self?.categories = categories
+                self?.updateViewVisibility()
+                self?.filterTrackersForSelectedDate()
+                
+            }
+        }
+    }
+    
+    private func fetchCompletedTrackers() {
+        recordStore.fetchRecords { [weak self] records in
+            DispatchQueue.main.async {
+                self?.completedTrackers = Set(records)
+                self?.collectionView.reloadData()
+                self?.filterTrackersForSelectedDate()
+            }
+        }
+    }
+    
     
     func setupView() {
         [titleLabel, searchBar.searchBar].forEach{
@@ -217,37 +220,35 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     }
     
     private func markButtonTapped(at indexPath: IndexPath) {
-        let selectedDate = currentDate
+        let selectedDate = Calendar.current.startOfDay(for: currentDate)
+        let today = Calendar.current.startOfDay(for: Date())
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.item]
         
-        guard Calendar.current.compare(selectedDate, to: Date(), toGranularity: .day) != .orderedDescending else {
+        guard selectedDate <= today else {
             return
         }
         
         let record = TrackerRecord(date: selectedDate, trackerID: tracker.id)
         
         if completedTrackers.contains(record) {
-         //   completedTrackers.remove(record)
             recordStore.deleteRecord(trackerId: tracker.id, date: selectedDate) { [weak self] success in
-                           if success {
-                               self?.completedTrackers.remove(record)
-                               DispatchQueue.main.async {
-                                   self?.collectionView.reloadItems(at: [indexPath])
-                               }
-                           }
-                       }
+                if success {
+                    self?.completedTrackers.remove(record)
+                    DispatchQueue.main.async {
+                        self?.collectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
         } else {
             recordStore.addRecord(trackerID: tracker.id, date: selectedDate) { [weak self] success in
-                           if success {
-                               self?.completedTrackers.insert(record)
-                               DispatchQueue.main.async {
-                                   self?.collectionView.reloadItems(at: [indexPath])
-                               }
-                           }
-                       }
+                if success {
+                    self?.completedTrackers.insert(record)
+                    DispatchQueue.main.async {
+                        self?.collectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
         }
-        
-       // collectionView.reloadItems(at: [indexPath])
     }
     
     private func filterTrackersForSelectedDate() {
@@ -321,7 +322,7 @@ extension TrackerViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 18)
+        return CGSize(width: collectionView.bounds.width, height: 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
