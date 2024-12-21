@@ -9,7 +9,6 @@ import UIKit
 
 
 final class OnboardingViewController: UIPageViewController, ConfigurableView {
-    
     var didFinishOnboarding: (() -> Void)?
     
     // MARK: - Inizial

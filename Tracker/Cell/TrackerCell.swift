@@ -139,6 +139,8 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
     
         let day = daysCountString(count: completedDays)
         daysCountLabel.text = "\(day)"
+     
+        
         
         let configuration = UIImage.SymbolConfiguration(pointSize: 11, weight: .bold)
         let imageName = isCompleted ? "checkmark" : "plus"

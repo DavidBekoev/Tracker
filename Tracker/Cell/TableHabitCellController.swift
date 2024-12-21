@@ -7,6 +7,7 @@
 //
 import UIKit
 final class TableHabitCellController: UITableViewCell, ConfigurableView {
+    
     private var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
@@ -94,3 +95,6 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
         }
     }
 }
+
+     
+     

@@ -12,10 +12,13 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     private var completedTrackers: Set<TrackerRecord> = []
     private var visibleCategories: [TrackerCategory] = []
     private var currentDate: Date = Date()
-    
     private let trackerStore = TrackerStore.shared
     private let categoryStore = TrackerCategoryStore.shared
     private let recordStore = TrackerRecordStore.shared
+    
+    let trackersText = NSLocalizedString("trackers", comment: "Текст для trackerLable")
+    let textForSearchBar = NSLocalizedString("search", comment: "Текст для UITextField")
+    let textForErrorLable = NSLocalizedString("emptyState.title", comment: "Текст для заглушки")
     
     private lazy var addTrackerButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -45,18 +48,19 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Трекеры"
         label.textColor = .black
         label.font = .boldSystemFont(ofSize: 34)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private var searchBar: UISearchController = {
+    private lazy var searchBar: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.backgroundImage = UIImage()
-        searchController.searchBar.placeholder = "Поиск"
+        searchController.searchBar.placeholder = textForSearchBar
         return searchController
+       
+       
     }()
     
     private var starImage: UIImageView = {
@@ -87,6 +91,7 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         
         
         collectionView.showsVerticalScrollIndicator = false
+       
         collectionView.register(TrackerCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()
@@ -114,7 +119,11 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         setupNavBar()
         setupView()
         setupConstraints()
+   
         
+        titleLabel.text = trackersText
+        errorLable.text = textForErrorLable
+
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.identifier)
@@ -201,7 +210,10 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
             collectionView.isHidden = false
             collectionView.reloadData()
         }
+        
+      
     }
+    
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
         currentDate = sender.date
@@ -277,6 +289,7 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         collectionView.reloadData()
         updateViewVisibility()
     }
+  
     
 }
 
