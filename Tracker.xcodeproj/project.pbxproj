@@ -6,11 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		EAEAE8272D1773840053C425 /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = EAEAE8262D1773840053C425 /* InlineSnapshotTesting */; };
-		EAEAE8292D1773840053C425 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = EAEAE8282D1773840053C425 /* SnapshotTesting */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		EA1368C62CCC359E00DF4598 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -77,8 +72,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAEAE8272D1773840053C425 /* InlineSnapshotTesting in Frameworks */,
-				EAEAE8292D1773840053C425 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,8 +148,6 @@
 			);
 			name = TrackerTests;
 			packageProductDependencies = (
-				EAEAE8262D1773840053C425 /* InlineSnapshotTesting */,
-				EAEAE8282D1773840053C425 /* SnapshotTesting */,
 			);
 			productName = TrackerTests;
 			productReference = EA1368C52CCC359E00DF4598 /* TrackerTests.xctest */;
@@ -220,7 +211,6 @@
 			mainGroup = EA1368A62CCC359D00DF4598;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				EAEAE8252D1773840053C425 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EA1368B02CCC359D00DF4598 /* Products */;
@@ -581,30 +571,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		EAEAE8252D1773840053C425 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.17.6;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		EAEAE8262D1773840053C425 /* InlineSnapshotTesting */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EAEAE8252D1773840053C425 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
-			productName = InlineSnapshotTesting;
-		};
-		EAEAE8282D1773840053C425 /* SnapshotTesting */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EAEAE8252D1773840053C425 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
-			productName = SnapshotTesting;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EA1368A72CCC359D00DF4598 /* Project object */;
 }
