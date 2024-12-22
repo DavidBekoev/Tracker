@@ -27,7 +27,7 @@ final class OnboardingCustomController: UIViewController, ConfigurableView {
         let label = UILabel()
         label.text = pageModel?.text
         label.font = .boldSystemFont(ofSize: 32)
-        label.textColor = .black
+        label.textColor = .totalBlack
         label.textAlignment = .center
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false

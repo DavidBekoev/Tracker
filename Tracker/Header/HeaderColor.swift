@@ -12,7 +12,7 @@ final class HeaderColor: UICollectionReusableView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 19)
-        label.textColor = .black
+        label.textColor = .totalBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

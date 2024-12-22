@@ -14,6 +14,9 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     weak var delegate:NewHabitCreateViewControllerDelegate?
     private let dataTableView: [TrackerDataType] = TrackerDataType.allCases
     private let trackerStore = TrackerStore.shared
+    private let themeManager = ThemeManager.shared
+    
+    
     private var selectedDays: [WeekDay] = [] {
         didSet { updateCreateButtonState() }
     }
@@ -38,7 +41,7 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .totalWhite
         collectionView.isScrollEnabled = false
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
@@ -50,7 +53,7 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .totalWhite
         collectionView.isScrollEnabled = false
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
@@ -73,7 +76,7 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         textField.placeholder = "Введите название трекера"
         textField.layer.cornerRadius = 16
         textField.font = .systemFont(ofSize: 17)
-        textField.backgroundColor = .background
+        textField.backgroundColor = .grayDarkGrey
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftView = leftPaddingView
         textField.leftViewMode = .always
@@ -91,6 +94,7 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         tableView.layer.cornerRadius = 16
         tableView.rowHeight = 75
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        tableView.separatorColor = themeManager.separatorColor
         tableView.separatorStyle = .singleLine
         tableView.isScrollEnabled = false
         return tableView
@@ -114,6 +118,7 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         let createButton = UIButton(type: .system)
         createButton.setTitle("Создать", for: .normal)
         createButton.setTitleColor(.white, for: .normal)
+     //   createButton.setTitleColor(isFormComplete ? .white : .totalWhite, for: .normal)
         createButton.backgroundColor = .gray
         createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         createButton.layer.cornerRadius = 16
@@ -134,7 +139,7 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = .totalWhite
         navigationItem.hidesBackButton = true
         setupView()
         setupConstraints()

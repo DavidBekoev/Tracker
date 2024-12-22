@@ -59,7 +59,7 @@ final class CellColorCollection: UICollectionViewCell, ConfigurableView {
     }
     
     func configure(with color: UIColor, isSelected: Bool) {
-        colorView.backgroundColor = color
+        colorView.backgroundColor =  color
         borderView.layer.borderWidth = isSelected ? 3 : 0
         borderView.layer.borderColor = isSelected ? color.withAlphaComponent(0.3).cgColor : UIColor.clear.cgColor
     }

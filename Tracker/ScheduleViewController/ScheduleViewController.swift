@@ -13,6 +13,7 @@ protocol ScheduleViewControllerDelegate: AnyObject {
 final class ScheduleViewController: UIViewController, ConfigurableView {
     
     weak var delegate: ScheduleViewControllerDelegate?
+    private let themeManager = ThemeManager.shared
     
     private let weekDays: [WeekDay] = {
            let allDays = WeekDay.allCases
@@ -27,8 +28,8 @@ final class ScheduleViewController: UIViewController, ConfigurableView {
         button.setTitle("Готово", for: .normal)
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .black
-        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .totalBlack
+        button.setTitleColor(.totalWhite, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         return button
     }()
@@ -45,8 +46,9 @@ final class ScheduleViewController: UIViewController, ConfigurableView {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.separatorColor = themeManager.separatorColor
         
-        view.backgroundColor = .white
+        view.backgroundColor = .totalWhite
         
         title = "Расписание"
         navigationController?.navigationBar.titleTextAttributes = [

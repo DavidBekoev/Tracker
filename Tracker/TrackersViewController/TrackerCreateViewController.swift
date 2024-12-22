@@ -14,8 +14,8 @@ final class TrackerCreateViewController: UIViewController, ConfigurableView {
     private var buttonHabit: UIButton = {
         let button = UIButton()
         button.setTitle("Привычка", for: .normal)
-        button.backgroundColor = .black
-        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .totalBlack
+        button.setTitleColor(.totalWhite, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -25,8 +25,9 @@ final class TrackerCreateViewController: UIViewController, ConfigurableView {
     private var buttonEvent: UIButton = {
         let button = UIButton()
         button.setTitle("Нерегулярное событие", for: .normal)
-        button.backgroundColor = .black
-        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .totalBlack
+       
+        button.setTitleColor(.totalWhite, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -43,7 +44,7 @@ final class TrackerCreateViewController: UIViewController, ConfigurableView {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .totalWhite
         setupView()
         setupConstraints()
         

@@ -23,7 +23,7 @@ final class CategoryViewController: UIViewController, ConfigurableView {
     private let viewModel: CategoryViewModelProtocol
     private var selectedCategory: TrackerCategory?
     weak var delegate: CategorySelectionDelegate?
-    
+    private let themeManager = ThemeManager.shared
     
     init(viewModel: CategoryViewModelProtocol, selectedCategory: TrackerCategory? = nil) {
         self.viewModel = viewModel
@@ -47,7 +47,7 @@ final class CategoryViewController: UIViewController, ConfigurableView {
     private lazy var errorLabel: UILabel = {
         let label = UILabel()
         label.text = "Привычки и события можно\nобъединить по смыслу"
-        label.textColor = .black
+        label.textColor = .totalBlack
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -63,6 +63,8 @@ final class CategoryViewController: UIViewController, ConfigurableView {
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.rowHeight = 75
+        tableView.separatorColor = themeManager.separatorColor
+        tableView.backgroundColor = .totalWhite
         tableView.isScrollEnabled = true
         return tableView
     }()
@@ -70,8 +72,8 @@ final class CategoryViewController: UIViewController, ConfigurableView {
     private lazy var addCategoryButton: UIButton = {
         let button = UIButton()
         button.setTitle("Добавить категорию", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
+        button.setTitleColor(.totalWhite, for: .normal)
+        button.backgroundColor = .totalBlack
         button.layer.cornerRadius = 16
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -90,7 +92,7 @@ final class CategoryViewController: UIViewController, ConfigurableView {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = .totalWhite
         
         title = "Категория"
         navigationController?.navigationBar.titleTextAttributes = [

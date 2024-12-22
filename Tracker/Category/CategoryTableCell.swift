@@ -12,7 +12,7 @@ final class CategoryTableCell: UITableViewCell, ConfigurableView {
     private let categoryLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
-        label.textColor = .black
+        label.textColor = .totalBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -56,7 +56,7 @@ final class CategoryTableCell: UITableViewCell, ConfigurableView {
     
     
     func configure(with categoryName: String, isSelected: Bool) {
-        backgroundColor = .background
+        backgroundColor = .grayDarkGrey
         categoryLabel.text = categoryName
         selectionIndicator.isHidden = !isSelected
     }

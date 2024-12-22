@@ -24,7 +24,7 @@ final class CategoryCreateViewController: UIViewController, ConfigurableView {
         textField.placeholder = "Введите название категории"
         textField.layer.cornerRadius = 16
         textField.font = .systemFont(ofSize: 17)
-        textField.backgroundColor = .background
+        textField.backgroundColor = .grayDarkGrey
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftView = leftPaddingView
         textField.leftViewMode = .always
@@ -39,8 +39,8 @@ final class CategoryCreateViewController: UIViewController, ConfigurableView {
     private lazy var createButton: UIButton = {
         let createButton = UIButton(type: .system)
         createButton.setTitle("Готово", for: .normal)
-        createButton.setTitleColor(.white, for: .normal)
-        createButton.backgroundColor = .gray
+        createButton.setTitleColor(.totalWhite, for: .normal)
+        createButton.backgroundColor = .lightGray
         createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
@@ -52,7 +52,7 @@ final class CategoryCreateViewController: UIViewController, ConfigurableView {
         super.viewDidLoad()
         
         navigationItem.hidesBackButton = true
-        view.backgroundColor = .white
+        view.backgroundColor = .totalWhite
         
         title = "Новая категория"
         navigationController?.navigationBar.titleTextAttributes = [
@@ -90,7 +90,7 @@ final class CategoryCreateViewController: UIViewController, ConfigurableView {
         let isFormComplete = categoryNameTextField.text?.isEmpty == false
         
         createButton.isEnabled = isFormComplete
-        createButton.backgroundColor = isFormComplete ? .black : .gray
+        createButton.backgroundColor = isFormComplete ? .black : .lightGray
     }
     
     @objc private func textFieldDidChange() {

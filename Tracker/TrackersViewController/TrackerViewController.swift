@@ -27,7 +27,7 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
             target: self,
             action: #selector(addTrackerTapped)
         )
-        button.tintColor = .black
+        button.tintColor = .totalBlack
         return button
     }()
     
@@ -43,12 +43,13 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
         picker.locale = Locale.current
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.date = Date()
+      //  picker.backgroundColor = .grayWhite
         return picker
     }()
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .totalBlack
         label.font = .boldSystemFont(ofSize: 34)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -74,7 +75,7 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     private var errorLable: UILabel = {
         let label = UILabel()
         label.text = "Что будем отслеживать?"
-        label.textColor = .black
+        label.textColor = .totalBlack
         label.font = .systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -115,11 +116,10 @@ final class TrackerViewController: UIViewController, NewHabitCreateViewControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = .totalWhite
         setupNavBar()
         setupView()
         setupConstraints()
-   
         
         titleLabel.text = trackersText
         errorLable.text = textForErrorLable

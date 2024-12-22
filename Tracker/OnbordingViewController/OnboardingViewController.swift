@@ -33,8 +33,8 @@ final class OnboardingViewController: UIPageViewController, ConfigurableView {
         let pageControl = UIPageControl()
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
-        pageControl.pageIndicatorTintColor = .black.withAlphaComponent(0.3)
-        pageControl.currentPageIndicatorTintColor = .black
+        pageControl.pageIndicatorTintColor = .totalBlack.withAlphaComponent(0.3)
+        pageControl.currentPageIndicatorTintColor = .totalBlack
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
@@ -42,8 +42,8 @@ final class OnboardingViewController: UIPageViewController, ConfigurableView {
     private lazy var skipButton = {
         let button = UIButton()
         button.setTitle("Вот это технологии!", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
+        button.setTitleColor(.totalWhite, for: .normal)
+        button.backgroundColor = .totalBlack
         button.layer.cornerRadius = 16
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.translatesAutoresizingMaskIntoConstraints = false

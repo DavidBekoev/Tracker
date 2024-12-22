@@ -11,7 +11,7 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
     private var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
-        label.textColor = .black
+        label.textColor = .totalBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -75,7 +75,7 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
     
     func config(title: String, selectedDays: [WeekDay]?, categoryName: String?, isScheduleRow: Bool) {
         nameLabel.text = title
-        backgroundColor = .background
+        backgroundColor = .grayDarkGrey
         
         if isScheduleRow, let selectedDays = selectedDays {
             let allDays = Set(WeekDay.allCases)

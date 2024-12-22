@@ -11,6 +11,7 @@ final class TabBarController: UITabBarController {
     
     let nameForTrackers = NSLocalizedString("trackers", comment: "Название вкладки трекеров")
        let nameForStatistics = NSLocalizedString("statistics", comment: "Название вкладки статистики")
+    private let themeManager: ThemeManager = .shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,9 +38,10 @@ final class TabBarController: UITabBarController {
     }
     
     private func setupTopBar() {
-        tabBar.backgroundColor = .white
+        tabBar.backgroundColor = .totalWhite
         let topBorder = UIView()
-        topBorder.backgroundColor = .gray
+      //  topBorder.backgroundColor = .gray
+        topBorder.backgroundColor = themeManager.tabBarBorder
         topBorder.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(topBorder)
         

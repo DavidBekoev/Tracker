@@ -14,14 +14,14 @@ final class ScheduleTableCell: UITableViewCell, ConfigurableView {
     private lazy var dayLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
-        label.textColor = .black
+        label.textColor = .totalBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var switchView: UISwitch = {
         let switchControl = UISwitch(frame: .zero)
-        switchControl.onTintColor = .blue
+        switchControl.onTintColor = .ypBlue
         switchControl.translatesAutoresizingMaskIntoConstraints = false
         return switchControl
     }()
@@ -55,7 +55,7 @@ final class ScheduleTableCell: UITableViewCell, ConfigurableView {
     }
     
     func configure(with dayName: String, isOn: Bool, switchAction: @escaping (Bool) -> Void) {
-        backgroundColor = .background
+        backgroundColor = .grayDarkGrey
         dayLabel.text = dayName
         switchView.setOn(isOn, animated: true)
         self.switchAction = switchAction
