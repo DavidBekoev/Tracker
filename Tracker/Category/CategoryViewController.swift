@@ -211,4 +211,9 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.separatorInset = (indexPath.row == viewModel.categories.count - 1)
+        ? UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
+        : UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+    }
 }

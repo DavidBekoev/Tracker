@@ -10,15 +10,9 @@ import UIKit
 final class TrackerCell: UICollectionViewCell, ConfigurableView {
     var markButtonAction: (() -> Void)?
     
-    private var trackerTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    // MARK: - UI Elements
     
-    private var emojiLabel: UILabel = {
+    private lazy var emojiLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -26,15 +20,49 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         return label
     }()
     
-    private var daysCountLabel: UILabel = {
+    private lazy var emojiContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.3)
+        view.layer.cornerRadius = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    private lazy var pinContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.masksToBounds = true
+        
+        return view
+    }()
+    
+    private lazy var pinImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.tintColor = .white
+        imageView.image = UIImage(named: "Pin")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    private lazy var trackerNameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .black
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private var markButton: UIButton = {
+    private lazy var daysCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.textColor = .totalBlack
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var markButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .white
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +71,9 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         return button
     }()
     
-    private var titleStackView: UIStackView = {
+    // MARK: - UI stack
+    
+    lazy var titleStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 8
@@ -53,16 +83,15 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         return stackView
     }()
     
-    private var emojiContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white.withAlphaComponent(0.3)
-        view.layer.cornerRadius = 12
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.masksToBounds = true
-        return view
+    lazy var imageStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
-    private var daysStackView: UIStackView = {
+    private lazy var daysStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 8
@@ -70,6 +99,8 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+    
+    // MARK: - Initializer
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -82,11 +113,17 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Setup Views
     
     func setupView() {
         emojiContainerView.addSubview(emojiLabel)
+        pinContainerView.addSubview(pinImageView)
         
-        [emojiContainerView, trackerTitleLabel].forEach {
+        [emojiContainerView, pinContainerView].forEach {
+            imageStackView.addArrangedSubview($0)
+        }
+        
+        [imageStackView, trackerNameLabel].forEach {
             titleStackView.addArrangedSubview($0)
         }
         [daysCountLabel, markButton].forEach {
@@ -105,22 +142,26 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
             titleStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             titleStackView.heightAnchor.constraint(equalToConstant: 90),
             
-            emojiLabel.topAnchor.constraint(equalTo: emojiContainerView.topAnchor, constant: 1),
-            emojiLabel.leadingAnchor.constraint(equalTo: emojiContainerView.leadingAnchor, constant: 4),
-            emojiLabel.trailingAnchor.constraint(equalTo: emojiContainerView.trailingAnchor, constant: -4),
-            emojiLabel.bottomAnchor.constraint(equalTo: emojiContainerView.bottomAnchor, constant: -1),
+            emojiLabel.centerXAnchor.constraint(equalTo: emojiContainerView.centerXAnchor),
+            emojiLabel.centerYAnchor.constraint(equalTo: emojiContainerView.centerYAnchor),
             
-            emojiContainerView.topAnchor.constraint(equalTo: titleStackView.topAnchor, constant: 12),
-            emojiContainerView.leadingAnchor.constraint(equalTo: titleStackView.leadingAnchor, constant: 12),
+            pinImageView.centerXAnchor.constraint(equalTo: pinContainerView.centerXAnchor),
+            pinImageView.centerYAnchor.constraint(equalTo: pinContainerView.centerYAnchor),
+            
+            imageStackView.topAnchor.constraint(equalTo: titleStackView.topAnchor, constant: 12),
+            imageStackView.leadingAnchor.constraint(equalTo: titleStackView.leadingAnchor, constant: 12),
+            imageStackView.trailingAnchor.constraint(equalTo: titleStackView.trailingAnchor, constant: -4),
+            imageStackView.bottomAnchor.constraint(equalTo: trackerNameLabel.topAnchor, constant: -8),
+            
+            
             emojiLabel.widthAnchor.constraint(equalToConstant: 16),
             emojiLabel.heightAnchor.constraint(equalToConstant: 22),
             
             emojiContainerView.widthAnchor.constraint(equalToConstant: 24),
             emojiContainerView.heightAnchor.constraint(equalToConstant: 24),
             
-            trackerTitleLabel.leadingAnchor.constraint(equalTo: titleStackView.leadingAnchor, constant: 12),
-            trackerTitleLabel.trailingAnchor.constraint(equalTo: titleStackView.trailingAnchor, constant: -12),
-            trackerTitleLabel.bottomAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 12),
+            pinContainerView.widthAnchor.constraint(equalToConstant: 24),
+            pinContainerView.heightAnchor.constraint(equalToConstant: 24),
             
             daysStackView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 0),
             daysStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
@@ -132,13 +173,14 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         ])
     }
     
-    func configure(with tracker: Tracker, isCompleted: Bool, completedDays: Int, isFutureDate: Bool) {
+    func configure(with tracker: Tracker, isCompleted: Bool, completedDays: Int, isFutureDate: Bool, isPinned: Bool) {
         emojiLabel.text = tracker.emoji
-        trackerTitleLabel.text = tracker.title
+        trackerNameLabel.text = tracker.title
         titleStackView.backgroundColor = tracker.color
-    
+        
         let day = daysCountString(count: completedDays)
         daysCountLabel.text = "\(day)"
+        
         
         let configuration = UIImage.SymbolConfiguration(pointSize: 11, weight: .bold)
         let imageName = isCompleted ? "checkmark" : "plus"
@@ -148,11 +190,13 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         
         markButton.isEnabled = !isFutureDate
         markButton.alpha = isFutureDate ? 0.5 : 1.0
+        pinImageView.isHidden = !isPinned
     }
+    
+    // MARK: - Action
     
     @objc private func markButtonTappedAction() {
         markButtonAction?()
-        
     }
     
     private func daysCountString(count: Int) -> String {
@@ -166,5 +210,4 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
             return "\(count) дней"
         }
     }
-    
 }

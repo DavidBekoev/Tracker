@@ -8,6 +8,7 @@ import UIKit
 
 protocol NewHabitCreateViewControllerDelegate: AnyObject {
     func didCreateNewTracker(_ tracker: Tracker, categoryName: String)
+    func didUpdateTracker(_ tracker: Tracker, categoryName: String)
 }
 
 final class NewHabitCreateViewController: UIViewController, ScheduleViewControllerDelegate, ConfigurableView, CategorySelectionDelegate {
@@ -15,7 +16,15 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     private let dataTableView: [TrackerDataType] = TrackerDataType.allCases
     private let trackerStore = TrackerStore.shared
     private let themeManager = ThemeManager.shared
-    
+    var trackerToEdit: Tracker?
+    var isEditingTracker: Bool = false
+    private let titlePage = NSLocalizedString("title_create_new_habit", comment: "")
+    private let textFieldPlaceholder = NSLocalizedString("tracker_name_text_field", comment: "")
+    private let textCancelButton = NSLocalizedString("cancel_button", comment: "")
+    private let textCreateButton = NSLocalizedString("create_button", comment: "")
+    private let titleEmoje = NSLocalizedString("emoji_title", comment: "")
+    private let titleColor = NSLocalizedString("color_title", comment: "")
+    private let titleEditPage = NSLocalizedString("edit_tracker_title", comment: "")
     
     private var selectedDays: [WeekDay] = [] {
         didSet { updateCreateButtonState() }
@@ -32,8 +41,8 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     }
     
     private var selectedCategory: TrackerCategory? {
-            didSet { updateCreateButtonState() }
-        }
+        didSet { updateCreateButtonState() }
+    }
     
     private lazy var collectionColorView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -73,7 +82,7 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     
     private lazy var trackerNameTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Введите название трекера"
+        textField.placeholder = textFieldPlaceholder
         textField.layer.cornerRadius = 16
         textField.font = .systemFont(ofSize: 17)
         textField.backgroundColor = .grayDarkGrey
@@ -104,7 +113,7 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     
     private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton(type: .system)
-        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.setTitle(textCancelButton, for: .normal)
         cancelButton.setTitleColor(.red, for: .normal)
         cancelButton.layer.borderColor = UIColor.red.cgColor
         cancelButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -116,9 +125,9 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     
     private lazy var createButton: UIButton = {
         let createButton = UIButton(type: .system)
-        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitle(textCreateButton, for: .normal)
         createButton.setTitleColor(.white, for: .normal)
-     //   createButton.setTitleColor(isFormComplete ? .white : .totalWhite, for: .normal)
+        //   createButton.setTitleColor(isFormComplete ? .white : .totalWhite, for: .normal)
         createButton.backgroundColor = .gray
         createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         createButton.layer.cornerRadius = 16
@@ -149,7 +158,8 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         collectionColorView.reloadData()
         collectionEmojiView.reloadData()
         
-        title = "Новая привычка"
+        title = isEditingTracker ? titleEditPage : titlePage
+        navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
         ]
@@ -314,9 +324,9 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     }
     
     func didSelectCategory(_ category: TrackerCategory) {
-            selectedCategory = category
-            tableView.reloadData()
-        }
+        selectedCategory = category
+        tableView.reloadData()
+    }
 }
 
 extension NewHabitCreateViewController: UITableViewDelegate, UITableViewDataSource {
@@ -332,20 +342,20 @@ extension NewHabitCreateViewController: UITableViewDelegate, UITableViewDataSour
         
         
         let itemType = dataTableView[indexPath.row]
-              let isScheduleRow = itemType == .schedule
-              let isCategoryRow = itemType == .category
+        let isScheduleRow = itemType == .schedule
+        let isCategoryRow = itemType == .category
         cell.config(
-                   title: itemType.displayName,
-                   selectedDays: isScheduleRow ? selectedDays : nil,
-                   categoryName: isCategoryRow ? selectedCategory?.title : nil,
-                   isScheduleRow: isScheduleRow
-               )
+            title: itemType.displayName,
+            selectedDays: isScheduleRow ? selectedDays : nil,
+            categoryName: isCategoryRow ? selectedCategory?.title : nil,
+            isScheduleRow: isScheduleRow
+        )
         
         
         if indexPath.row == dataTableView.count - 1 {
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         } else {
-                  cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         }
         
         return cell
@@ -358,11 +368,11 @@ extension NewHabitCreateViewController: UITableViewDelegate, UITableViewDataSour
         switch selectedItem {
         case .category:
             let categoryViewModel = CategoryViewModel()
-                       let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
-                       categoryViewController.delegate = self
-                       let navController = UINavigationController(rootViewController: categoryViewController)
-                       present(navController, animated: true, completion: nil)
-                     
+            let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
+            categoryViewController.delegate = self
+            let navController = UINavigationController(rootViewController: categoryViewController)
+            present(navController, animated: true, completion: nil)
+            
         case .schedule:
             let scheduleViewController = ScheduleViewController()
             scheduleViewController.delegate = self
@@ -434,13 +444,13 @@ extension NewHabitCreateViewController: UICollectionViewDelegate, UICollectionVi
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderEmoji.reuseIdentifier, for: indexPath) as? HeaderEmoji else {
                 return UICollectionReusableView()
             }
-            header.configure(with: "Emoji")
+            header.configure(with: titleEmoje)
             return header
         } else {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderColor.reuseIdentifier, for: indexPath) as? HeaderColor else {
                 return UICollectionReusableView()
             }
-            header.configure(with: "Цвет")
+            header.configure(with: titleColor)
             return header
         }
     }

@@ -9,11 +9,15 @@ import UIKit
 
 final class TrackerCreateViewController: UIViewController, ConfigurableView {
     
-    weak var delegate: NewHabitCreateViewControllerDelegate?
-
-    private var buttonHabit: UIButton = {
+    weak var delegateHabit: NewHabitCreateViewControllerDelegate?
+    weak var delegateEvent: NewEventCreateViewControllerDelegate?
+    private let titlePage = NSLocalizedString("title_create_tracker", comment: "")
+    private let textButtonHabit = NSLocalizedString("text_button_habit", comment: "")
+    private let textButtonEvent = NSLocalizedString("text_button_event", comment: "")
+    
+    private lazy var buttonHabit: UIButton = {
         let button = UIButton()
-        button.setTitle("Привычка", for: .normal)
+        button.setTitle(textButtonHabit, for: .normal)
         button.backgroundColor = .totalBlack
         button.setTitleColor(.totalWhite, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -22,11 +26,10 @@ final class TrackerCreateViewController: UIViewController, ConfigurableView {
         return button
     }()
     
-    private var buttonEvent: UIButton = {
+    private lazy var buttonEvent: UIButton = {
         let button = UIButton()
-        button.setTitle("Нерегулярное событие", for: .normal)
+        button.setTitle(textButtonEvent, for: .normal)
         button.backgroundColor = .totalBlack
-       
         button.setTitleColor(.totalWhite, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
@@ -48,7 +51,7 @@ final class TrackerCreateViewController: UIViewController, ConfigurableView {
         setupView()
         setupConstraints()
         
-        title = "Создание трекера"
+        title = titlePage
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
         ]
@@ -79,12 +82,13 @@ final class TrackerCreateViewController: UIViewController, ConfigurableView {
     
     @objc private func createNewHabit() {
         let newHabitCreateViewController = NewHabitCreateViewController()
-        newHabitCreateViewController.delegate = delegate
+        newHabitCreateViewController.delegate = delegateHabit
         navigationController?.pushViewController(newHabitCreateViewController, animated: true)
     }
     
     @objc private func createNewEvent() {
         let newEventCreateViewController = NewEventCreateViewController()
+        newEventCreateViewController.delegate = delegateEvent
         navigationController?.pushViewController(newEventCreateViewController, animated: true)
     }
 }

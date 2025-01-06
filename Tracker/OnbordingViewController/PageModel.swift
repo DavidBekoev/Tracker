@@ -7,6 +7,9 @@
 
 import UIKit
 
+private let titleFirstPage = NSLocalizedString("title_first_screen", comment: "")
+private let titleSecondPage = NSLocalizedString("title_second_screen", comment: "")
+
 enum PageModel {
     case firstPage
     case secondPage
@@ -23,9 +26,9 @@ enum PageModel {
     var text: String {
         switch self {
         case .firstPage:
-            return "Отслеживайте только то, что хотите"
+            return titleFirstPage
         case .secondPage:
-            return "Даже если это не литры воды и йога"
+            return titleSecondPage
         }
     }
 }

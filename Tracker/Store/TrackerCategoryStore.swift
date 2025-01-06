@@ -11,34 +11,34 @@ import UIKit
 final class TrackerCategoryStore {
     static let shared = TrackerCategoryStore()
     private let context: NSManagedObjectContext
-
+    
     private init() {
         self.context = AppDelegate.shared.persistentContainer.viewContext
     }
-
+    
     func createCategory(title: String, completion: @escaping (TrackerCategory?) -> Void) {
         let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
         request.predicate = NSPredicate(format: "title == %@", title)
-
-                do {
-                    let existingCategories = try context.fetch(request)
-                    if !existingCategories.isEmpty {
-                        completion(nil)
-                        return
-                    }
-                } catch {
-                    completion(nil)
-                    return
-                }
+        
+        do {
+            let existingCategories = try context.fetch(request)
+            if !existingCategories.isEmpty {
+                completion(nil)
+                return
+            }
+        } catch {
+            completion(nil)
+            return
+        }
         let categoryCoreData = TrackerCategoryCoreData(context: context)
         categoryCoreData.title = title
-
+        
         AppDelegate.shared.saveContext()
-
+        
         let newCategory = TrackerCategory(title: title, trackers: [])
         completion(newCategory)
     }
-
+    
     func fetchCategories(completion: @escaping ([TrackerCategory]) -> Void) {
         let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
         do {
@@ -56,10 +56,10 @@ final class TrackerCategoryStore {
                             schedule: trackerEntity.schedule as? [WeekDay] ?? [])
                 }
                 return TrackerCategory(title: title, trackers: trackerModels)
-                      }
-                      completion(categories)
-                  } catch {
-                      completion([])
-                  }
-              }
-          }
+            }
+            completion(categories)
+        } catch {
+            completion([])
+        }
+    }
+}

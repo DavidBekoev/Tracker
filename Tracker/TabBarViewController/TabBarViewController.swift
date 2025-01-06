@@ -5,12 +5,13 @@
 //  Created by Давид Бекоев on 28.10.2024.
 //
 
+
 import UIKit
 
 final class TabBarController: UITabBarController {
     
-    let nameForTrackers = NSLocalizedString("trackers", comment: "Название вкладки трекеров")
-       let nameForStatistics = NSLocalizedString("statistics", comment: "Название вкладки статистики")
+    private let titleTrackers = NSLocalizedString("trackers", comment: "")
+     private let titleStatistics = NSLocalizedString("statistics", comment: "")
     private let themeManager: ThemeManager = .shared
     
     override func viewDidLoad() {
@@ -20,16 +21,16 @@ final class TabBarController: UITabBarController {
     }
     
     private func setupViewControllers() {
-        let trackersViewController = UINavigationController(rootViewController: TrackerViewController())
+        let trackersViewController = UINavigationController(rootViewController: TrackersViewController())
         trackersViewController.tabBarItem = UITabBarItem(
-            title: nameForTrackers,
+            title: titleTrackers,
             image: UIImage(named: "Tab Logo"),
             selectedImage: nil
         )
         
-        let statisticsViewController = StatisticsController()
+        let statisticsViewController = StatisticsViewController()
         statisticsViewController.tabBarItem = UITabBarItem(
-            title: nameForStatistics,
+            title: titleStatistics,
             image: UIImage(named: "Заяц"),
             selectedImage: nil
         )
@@ -40,7 +41,6 @@ final class TabBarController: UITabBarController {
     private func setupTopBar() {
         tabBar.backgroundColor = .totalWhite
         let topBorder = UIView()
-      //  topBorder.backgroundColor = .gray
         topBorder.backgroundColor = themeManager.tabBarBorder
         topBorder.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(topBorder)

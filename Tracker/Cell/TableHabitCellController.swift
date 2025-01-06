@@ -7,6 +7,7 @@
 //
 import UIKit
 final class TableHabitCellController: UITableViewCell, ConfigurableView {
+    private let textDetailLable = NSLocalizedString("every day", comment: "")
     
     private var nameLabel: UILabel = {
         let label = UILabel()
@@ -78,23 +79,30 @@ final class TableHabitCellController: UITableViewCell, ConfigurableView {
         backgroundColor = .grayDarkGrey
         
         if isScheduleRow, let selectedDays = selectedDays {
-            let allDays = Set(WeekDay.allCases)
-            if Set(selectedDays) == allDays {
-                detailLabel.text = "Каждый день"
+            let allDays = WeekDay.allCases.filter {
+                switch $0 {
+                case .sunday, .monday, .tuesday, .wednesday, .thursday, .friday, .saturday:
+                    return true
+                case .specificDate:
+                    return false
+                }
+            }
+            
+            if Set(selectedDays) == Set(allDays) {
+                detailLabel.text = textDetailLable
             } else {
-                detailLabel.text = selectedDays
-                    .sorted { $0.rawValue < $1.rawValue }
+                let sortedDays = selectedDays.sorted {
+                    $0.weekdayIndex < $1.weekdayIndex
+                }
+                detailLabel.text = sortedDays
                     .map { $0.shortDisplayName }
                     .joined(separator: ", ")
             }
-            
         } else if !isScheduleRow, let categoryName = categoryName {
-                   detailLabel.text = categoryName
+            detailLabel.text = categoryName
         } else {
             detailLabel.text = nil
         }
     }
+    
 }
-
-     
-     

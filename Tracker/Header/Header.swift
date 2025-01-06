@@ -7,38 +7,32 @@
 
 import UIKit
 
-final class SectionHeader: UICollectionReusableView, ConfigurableView {
-    static let identifier = "section-header-identifier"
-    var nameLabel: UILabel = {
-        let lable = UILabel()
-        lable.translatesAutoresizingMaskIntoConstraints = false
-        lable.adjustsFontForContentSizeCategory = true
-        lable.font = UIFont.boldSystemFont(ofSize: 19)
-        lable.textAlignment = .left
-        return lable
-    }()
+final class SectionHeader: UICollectionReusableView {
+    static let identifier = "section-header-reuse-identifier"
+    
+    let titleLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
-        setupConstraints()
+        configure()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    func setupView() {
-        addSubview(nameLabel)
-    }
-    
-    func setupConstraints() {
+    private func configure() {
+        addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.textAlignment = .left
+        
         NSLayoutConstraint.activate([
-            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            nameLabel.topAnchor.constraint(equalTo: topAnchor),
-            nameLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

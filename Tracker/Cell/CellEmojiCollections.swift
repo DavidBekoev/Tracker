@@ -8,7 +8,9 @@
 import UIKit
 
 final class CellEmojiCollection: UICollectionViewCell, ConfigurableView {
+    
     static let identifier = "CellEmoji"
+    
     private lazy var emojiLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

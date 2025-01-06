@@ -29,9 +29,9 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     
     func addCategory(name: String) {
         store.createCategory(title: name) { [weak self] _ in
-                self?.fetchCategories()
-            }
+            self?.fetchCategories()
         }
     }
+}
 
 

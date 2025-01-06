@@ -10,6 +10,7 @@ import UIKit
 
 final class OnboardingViewController: UIPageViewController, ConfigurableView {
     var didFinishOnboarding: (() -> Void)?
+    private let skipButtonText = NSLocalizedString("skip_button", comment: "")
     
     // MARK: - Inizial
     
@@ -33,17 +34,17 @@ final class OnboardingViewController: UIPageViewController, ConfigurableView {
         let pageControl = UIPageControl()
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
-        pageControl.pageIndicatorTintColor = .totalBlack.withAlphaComponent(0.3)
-        pageControl.currentPageIndicatorTintColor = .totalBlack
+        pageControl.pageIndicatorTintColor = .black.withAlphaComponent(0.3)
+        pageControl.currentPageIndicatorTintColor = .black
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
     
     private lazy var skipButton = {
         let button = UIButton()
-        button.setTitle("Вот это технологии!", for: .normal)
-        button.setTitleColor(.totalWhite, for: .normal)
-        button.backgroundColor = .totalBlack
+        button.setTitle(skipButtonText, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .black
         button.layer.cornerRadius = 16
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.translatesAutoresizingMaskIntoConstraints = false

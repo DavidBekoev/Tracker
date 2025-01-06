@@ -4,7 +4,7 @@
 //
 //  Created by Давид Бекоев on 25.10.2024.
 //
-
+import AppMetricaCore
 import UIKit
 import CoreData
 @main
@@ -15,8 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         WeekdayTransformer.register()
         ColorTransformer.register()
-        return true
-    }
+        
+        guard let configuration = AppMetricaConfiguration(apiKey: "f5320d35-eb0e-46be-a664-fe13380d60f3") else {
+                return true
+        }
+           AppMetrica.activate(with: configuration)
+         return true
+     }
     // MARK: UISceneSession Lifecycle
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
