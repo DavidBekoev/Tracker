@@ -178,9 +178,7 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
         trackerNameLabel.text = tracker.title
         titleStackView.backgroundColor = tracker.color
         
-        let day = daysCountString(count: completedDays)
-        daysCountLabel.text = "\(day)"
-        
+        daysCountLabel.text = daysCountString(count: completedDays)
         
         let configuration = UIImage.SymbolConfiguration(pointSize: 11, weight: .bold)
         let imageName = isCompleted ? "checkmark" : "plus"
@@ -198,16 +196,10 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
     @objc private func markButtonTappedAction() {
         markButtonAction?()
     }
-    
+
     private func daysCountString(count: Int) -> String {
-        let remainingPart10 = count % 10
-        let remainingPart100 = count % 100
-        if remainingPart10 == 1 && remainingPart100 != 11 {
-            return "\(count) день"
-        } else if remainingPart10 >= 2 && remainingPart10 <= 4 && (remainingPart100 < 10) || remainingPart100 >= 20 {
-            return "\(count) дня"
-        } else {
-            return "\(count) дней"
-        }
-    }
+           let formatString: String = NSLocalizedString("days_сount", comment: "")
+           let resultString: String = String.localizedStringWithFormat(formatString, count)
+           return resultString
+       }
 }
