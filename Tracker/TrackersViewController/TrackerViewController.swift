@@ -46,8 +46,6 @@ final class TrackersViewController: UIViewController, NewHabitCreateViewControll
         let picker = UIDatePicker()
         picker.preferredDatePickerStyle = .compact
         picker.datePickerMode = .date
-        
-        //  picker.backgroundColor = .grayDarkGrey
         picker.locale = Locale.current
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.date = Date()

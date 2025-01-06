@@ -22,8 +22,6 @@ final class StatisticsViewController: UIViewController, ConfigurableView {
     private let totalCompletedTitle = NSLocalizedString("total_completed", comment: "")
     private let averageCompletionTitle = NSLocalizedString("average_completion", comment: "")
     
-    private lazy var titleLabel = UILabel()
-    
     // MARK: - UI Elements
     
     private lazy var tableView: UITableView = {
@@ -37,7 +35,7 @@ final class StatisticsViewController: UIViewController, ConfigurableView {
         return tableView
     }()
     
-    private lazy var imegeError: UIImageView = {
+    private lazy var imageError: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "Смайл")
@@ -63,17 +61,20 @@ final class StatisticsViewController: UIViewController, ConfigurableView {
         stackView.spacing = 8
         return stackView
     }()
-    
+ 
+    private lazy var statisticsLabel: UILabel = {
+        let label = UILabel()
+        label.text = titlePageStatistic
+        label.font = .systemFont(ofSize: 34, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .totalWhite
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = titlePageStatistic
-        
         setupView()
         setupConstraints()
         updateViewVisibility()
@@ -86,12 +87,12 @@ final class StatisticsViewController: UIViewController, ConfigurableView {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("TrackerRecordDidChange"), object: nil)
     }
     
-    
+   
     // MARK: - Setup
     
     func setupView() {
-        
-        [imegeError, titleLabelError].forEach{
+        view.addSubview(statisticsLabel)
+        [imageError, titleLabelError].forEach{
             emptyStateView.addArrangedSubview($0)
         }
         [tableView, emptyStateView].forEach{
@@ -101,6 +102,10 @@ final class StatisticsViewController: UIViewController, ConfigurableView {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
+            statisticsLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            statisticsLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            statisticsLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+
             
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 77),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
