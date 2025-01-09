@@ -45,8 +45,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D04F9C53D6C0405F681C181 /* Pods-Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Tracker/Pods-Tracker.debug.xcconfig"; sourceTree = "<group>"; };
+		594ABC09C36908586C97CC45 /* Pods-TrackerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackerTests.release.xcconfig"; path = "Target Support Files/Pods-TrackerTests/Pods-TrackerTests.release.xcconfig"; sourceTree = "<group>"; };
+		5E9D379DE60AD3046AC71793 /* Pods-Tracker-TrackerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tracker-TrackerUITests.release.xcconfig"; path = "Target Support Files/Pods-Tracker-TrackerUITests/Pods-Tracker-TrackerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6CE61637F25D7DAD8C521CAB /* Pods_TrackerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrackerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8391262D2FDA7734E76AC76D /* Pods-Tracker-TrackerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tracker-TrackerUITests.debug.xcconfig"; path = "Target Support Files/Pods-Tracker-TrackerUITests/Pods-Tracker-TrackerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		8D3678D5964C9A49F680F244 /* Pods-TrackerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackerTests.debug.xcconfig"; path = "Target Support Files/Pods-TrackerTests/Pods-TrackerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A5FC7E82B060E7DD5CB79948 /* Pods_Tracker_TrackerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tracker_TrackerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACC9F4711C7EC663FF7FE12A /* Pods-Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tracker.release.xcconfig"; path = "Target Support Files/Pods-Tracker/Pods-Tracker.release.xcconfig"; sourceTree = "<group>"; };
 		EA1368AF2CCC359D00DF4598 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA1368CF2CCC359E00DF4598 /* TrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA98ACD42D17785B0054FF05 /* TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,11 +80,15 @@
 		};
 		EA1368D22CCC359E00DF4598 /* TrackerUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = TrackerUITests;
 			sourceTree = "<group>";
 		};
 		EA98ACD52D17785B0054FF05 /* TrackerTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = TrackerTests;
 			sourceTree = "<group>";
 		};
@@ -114,6 +124,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1086D289DCA03770D42FF6FE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0D04F9C53D6C0405F681C181 /* Pods-Tracker.debug.xcconfig */,
+				ACC9F4711C7EC663FF7FE12A /* Pods-Tracker.release.xcconfig */,
+				8391262D2FDA7734E76AC76D /* Pods-Tracker-TrackerUITests.debug.xcconfig */,
+				5E9D379DE60AD3046AC71793 /* Pods-Tracker-TrackerUITests.release.xcconfig */,
+				8D3678D5964C9A49F680F244 /* Pods-TrackerTests.debug.xcconfig */,
+				594ABC09C36908586C97CC45 /* Pods-TrackerTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		EA1368A62CCC359D00DF4598 = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +146,7 @@
 				EA98ACD52D17785B0054FF05 /* TrackerTests */,
 				EA1368B02CCC359D00DF4598 /* Products */,
 				EB55191529DD3E27658475F7 /* Frameworks */,
+				1086D289DCA03770D42FF6FE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -436,6 +461,7 @@
 /* Begin XCBuildConfiguration section */
 		EA1368D92CCC359E00DF4598 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0D04F9C53D6C0405F681C181 /* Pods-Tracker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -464,6 +490,7 @@
 		};
 		EA1368DA2CCC359E00DF4598 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACC9F4711C7EC663FF7FE12A /* Pods-Tracker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -613,6 +640,7 @@
 		};
 		EA1368E12CCC359E00DF4598 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8391262D2FDA7734E76AC76D /* Pods-Tracker-TrackerUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -629,6 +657,7 @@
 		};
 		EA1368E22CCC359E00DF4598 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E9D379DE60AD3046AC71793 /* Pods-Tracker-TrackerUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -645,6 +674,7 @@
 		};
 		EA98ACDB2D17785B0054FF05 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8D3678D5964C9A49F680F244 /* Pods-TrackerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -662,6 +692,7 @@
 		};
 		EA98ACDC2D17785B0054FF05 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 594ABC09C36908586C97CC45 /* Pods-TrackerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
