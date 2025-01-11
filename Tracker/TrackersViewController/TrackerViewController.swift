@@ -310,7 +310,7 @@ final class TrackersViewController: UIViewController, NewHabitCreateViewControll
                 }
             }
         } else {
-            recordStore.addRecord(trackerId: tracker.id, date: selectedDate) { [weak self] success in
+            recordStore.addRecord(trackerID: tracker.id, date: selectedDate) { [weak self] success in
                 if success {
                     self?.completedTrackers.insert(record)
                     AppMetrica.reportEvent(name: "TrackerMarked", parameters: ["trackerId": tracker.id.uuidString])
