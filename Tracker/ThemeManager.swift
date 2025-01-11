@@ -14,7 +14,7 @@ final class ThemeManager {
     
     var tabBarBorder: UIColor {
         return UIColor { traitCollection in
-            return traitCollection.userInterfaceStyle == .dark ? .totalBlack : .gray
+            return traitCollection.userInterfaceStyle == .dark ? .black : .gray
         }
     }
     

@@ -11,7 +11,7 @@ import UIKit
 final class TabBarController: UITabBarController {
     
     private let titleTrackers = NSLocalizedString("trackers", comment: "")
-     private let titleStatistics = NSLocalizedString("statistics", comment: "")
+    private let titleStatistics = NSLocalizedString("statistics", comment: "")
     private let themeManager: ThemeManager = .shared
     
     override func viewDidLoad() {

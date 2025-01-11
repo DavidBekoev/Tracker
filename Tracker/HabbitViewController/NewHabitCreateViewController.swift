@@ -15,13 +15,16 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     weak var delegate:NewHabitCreateViewControllerDelegate?
     private let dataTableView: [TrackerDataType] = TrackerDataType.allCases
     private let trackerStore = TrackerStore.shared
+    private let recordStore = TrackerRecordStore.shared
     private let themeManager = ThemeManager.shared
+    var trackerRecords: [TrackerRecord] = []
     var trackerToEdit: Tracker?
     var isEditingTracker: Bool = false
     private let titlePage = NSLocalizedString("title_create_new_habit", comment: "")
     private let textFieldPlaceholder = NSLocalizedString("tracker_name_text_field", comment: "")
     private let textCancelButton = NSLocalizedString("cancel_button", comment: "")
     private let textCreateButton = NSLocalizedString("create_button", comment: "")
+    private let textErrorLabelField = NSLocalizedString("error_label_text_field", comment: "")
     private let titleEmoje = NSLocalizedString("emoji_title", comment: "")
     private let titleColor = NSLocalizedString("color_title", comment: "")
     private let titleEditPage = NSLocalizedString("edit_tracker_title", comment: "")
@@ -80,6 +83,15 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         return view
     }()
     
+    private lazy var completionDaysLabel: UILabel = {
+           let label = UILabel()
+           label.font = .boldSystemFont(ofSize: 32)
+           label.textColor = .totalBlack
+           label.textAlignment = .center
+           label.translatesAutoresizingMaskIntoConstraints = false
+           return label
+       }()
+    
     private lazy var trackerNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = textFieldPlaceholder
@@ -96,6 +108,17 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
     }()
+    
+    private lazy var errorLabelTextField: UILabel = {
+          let label = UILabel()
+          label.textColor = .red
+          label.font = .systemFont(ofSize: 17)
+          label.textAlignment = .center
+          label.isHidden = true
+          label.text = textErrorLabelField
+          label.translatesAutoresizingMaskIntoConstraints = false
+          return label
+      }()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -136,6 +159,14 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         return createButton
     }()
     
+    private lazy var textFieldStackView: UIStackView = {
+          let stackView = UIStackView()
+          stackView.axis = .vertical
+          stackView.spacing = 8
+          stackView.translatesAutoresizingMaskIntoConstraints = false
+          return stackView
+      }()
+    
     private lazy var buttonBottomStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -144,6 +175,13 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         return stackView
     }()
     
+    private lazy var daysStackView: UIStackView = {
+           let stackView = UIStackView()
+           stackView.axis = .vertical
+           stackView.spacing = 40
+           stackView.translatesAutoresizingMaskIntoConstraints = false
+           return stackView
+       }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,13 +218,28 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        [trackerNameTextField, tableView, collectionEmojiView, collectionColorView, buttonBottomStackView].forEach {
-            contentView.addSubview($0)
-        }
-        
-        [cancelButton, createButton].forEach {
-            buttonBottomStackView.addArrangedSubview($0)
-        }
+//        [trackerNameTextField, tableView, collectionEmojiView, collectionColorView, buttonBottomStackView].forEach {
+//            contentView.addSubview($0)
+//        }
+//        
+//        [cancelButton, createButton].forEach {
+//            buttonBottomStackView.addArrangedSubview($0)
+        [trackerNameTextField, errorLabelTextField].forEach {
+                   textFieldStackView.addArrangedSubview($0)
+               }
+               
+               [completionDaysLabel, textFieldStackView].forEach {
+                   daysStackView.addArrangedSubview($0)
+               }
+               
+               [daysStackView, tableView, collectionEmojiView, collectionColorView, buttonBottomStackView].forEach {
+                   contentView.addSubview($0)
+               }
+               
+               [cancelButton, createButton].forEach {
+                   buttonBottomStackView.addArrangedSubview($0)
+               }
+//        }
     }
     
     func setupConstraints() {
@@ -202,6 +255,10 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            daysStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
+                       daysStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+                       daysStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             trackerNameTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 28),
             trackerNameTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -229,7 +286,11 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
             
             cancelButton.widthAnchor.constraint(equalToConstant: (view.frame.width / 2) - 30),
-            createButton.widthAnchor.constraint(equalToConstant: (view.frame.width / 2) - 30)
+            createButton.widthAnchor.constraint(equalToConstant: (view.frame.width / 2) - 30),
+            
+            completionDaysLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
+                      completionDaysLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+                      completionDaysLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
             
         ])
     }
@@ -254,34 +315,63 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
     
     
     @objc private func cancelTapped() {
-        dismiss(animated: true, completion: nil)
+        if isEditingTracker {
+                   navigationController?.popViewController(animated: true)
+               } else {
+                   dismiss(animated: true, completion: nil)
+               }
     }
     
     @objc private func createTapped() {
-        guard let trackerName = trackerNameTextField.text, !trackerName.isEmpty,
-              let emoji = selectedEmoji,
-              let color = selectedColor,
-              let categoryName = selectedCategory?.title else {
-            return
-        }
-        
-        let newTracker = Tracker(
-            id: UUID(),
-            title: trackerName,
-            emoji: emoji,
-            color: color,
-            schedule: selectedDays
-        )
-        
-        trackerStore.createTracker(id: newTracker.id, title: newTracker.title, emoji: newTracker.emoji, color: newTracker.color, schedule: newTracker.schedule, categoryName: categoryName) { [weak self] tracker in
-            
-            DispatchQueue.main.async {
-                guard let tracker = tracker else { return }
-                self?.delegate?.didCreateNewTracker(tracker, categoryName: categoryName)
-                self?.dismiss(animated: true, completion: nil)
-            }
-        }
-    }
+         guard let trackerName = trackerNameTextField.text, !trackerName.isEmpty,
+               let emoji = selectedEmoji,
+               let color = selectedColor,
+               let categoryName = selectedCategory?.title else {
+             return
+         }
+         
+         if isEditingTracker, let trackerToEdit = trackerToEdit {
+             trackerStore.updateTracker(
+                 trackerToEdit,
+                 title: trackerName,
+                 emoji: emoji,
+                 color: color,
+                 schedule: selectedDays,
+                 categoryName: categoryName
+             ) { [weak self] success in
+                 DispatchQueue.main.async {
+                     if success {
+                         self?.delegate?.didUpdateTracker(trackerToEdit, categoryName: categoryName)
+                         self?.navigationController?.popViewController(animated: true)
+                     }
+                 }
+             }
+         } else {
+             let newTracker = Tracker(
+                id: UUID(),
+                title: trackerName,
+                               emoji: emoji,
+                               color: color,
+                               schedule: selectedDays
+                           )
+                           
+                           trackerStore.createTracker(
+                               id: newTracker.id,
+                               title: newTracker.title,
+                               emoji: newTracker.emoji,
+                               color: newTracker.color,
+                               schedule: newTracker.schedule,
+                               categoryName: categoryName
+                           ) { [weak self] tracker in
+                               DispatchQueue.main.async {
+                                   guard let tracker = tracker else { return }
+                                   self?.delegate?.didCreateNewTracker(tracker, categoryName: categoryName)
+                                   self?.dismiss(animated: true, completion: nil)
+                               }
+                           }
+                       }
+                   }
+             
     
     @objc private func textFieldDidChange() {
         updateCreateButtonState()
@@ -327,6 +417,49 @@ final class NewHabitCreateViewController: UIViewController, ScheduleViewControll
         selectedCategory = category
         tableView.reloadData()
     }
+    
+    private func populateDataForEditing() {
+           guard isEditingTracker, let trackerToEdit = trackerToEdit else {
+               completionDaysLabel.isHidden = true
+               return
+           }
+           
+           completionDaysLabel.isHidden = false
+           
+        let completedDays = trackerRecords.filter { $0.trackerID == trackerToEdit.id }.count
+           completionDaysLabel.text = daysCountString(count: completedDays)
+           
+        trackerNameTextField.text = trackerToEdit.title
+           selectedEmoji = trackerToEdit.emoji
+           selectedColor = trackerToEdit.color
+           selectedDays = trackerToEdit.schedule
+           
+           if let category = trackerStore.fetchCategory(for: trackerToEdit.id) {
+               selectedCategory = category
+           }
+           
+           tableView.reloadData()
+           collectionColorView.reloadData()
+           collectionEmojiView.reloadData()
+           updateCreateButtonState()
+       }
+    
+    private func daysCountString(count: Int) -> String {
+           let formatString: String = NSLocalizedString("days_сount", comment: "")
+           let resultString: String = String.localizedStringWithFormat(formatString, count)
+           return resultString
+       }
+       
+       private func fetchCompletedTrackers() {
+           recordStore.fetchRecords { [weak self] records in
+               DispatchQueue.main.async {
+                   self?.trackerRecords = records
+                   self?.populateDataForEditing()
+               }
+           }
+       }
+    
+    
 }
 
 extension NewHabitCreateViewController: UITableViewDelegate, UITableViewDataSource {
@@ -390,6 +523,22 @@ extension NewHabitCreateViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+          let currentText = textField.text ?? ""
+          guard let textRange = Range(range, in: currentText) else { return true }
+          let updatedText = currentText.replacingCharacters(in: textRange, with: string)
+          
+          if updatedText.count > 38 {
+              self.errorLabelTextField.isHidden = false
+              self.createButton.isEnabled = false
+              return false
+          } else {
+              self.errorLabelTextField.isHidden = true
+              self.updateCreateButtonState()
+              return true
+          }
+      }
 }
 
 extension NewHabitCreateViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
