@@ -64,7 +64,7 @@ final class TrackerCell: UICollectionViewCell, ConfigurableView {
     
     private lazy var markButton: UIButton = {
         let button = UIButton(type: .system)
-        button.tintColor = .white
+        button.tintColor = .totalWhite
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 17
         button.layer.masksToBounds = true
