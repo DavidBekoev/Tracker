@@ -40,7 +40,7 @@ final class CategoryCreateViewController: UIViewController, ConfigurableView {
         let createButton = UIButton(type: .system)
         createButton.setTitle("Готово", for: .normal)
         createButton.setTitleColor(.totalWhite, for: .normal)
-        createButton.backgroundColor = .lightGray 
+        createButton.backgroundColor = .lightGray
         createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
